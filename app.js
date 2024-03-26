@@ -33,7 +33,7 @@ app.get('/', async (req, res) => {
         if(err){
             console.log(err);
         }
-        res.render('imagepage',{items: data})
+        res.render('imagePage',{items: data})
     })
 });
  
