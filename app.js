@@ -12,7 +12,8 @@ mongoose.connect('mongodb+srv://admin-thong:Test123@cluster0.rzln4di.mongodb.net
 .then(console.log("DB Connected"))
  
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(bodyParser.json());
+
  
 var multer = require('multer');
  
@@ -41,7 +42,6 @@ app.get('/', async (req, res) => {
  
  
 app.post('/', upload.single('image'), async (req, res, next) => {
-    console.log(path.join(__dirname + '/uploads/' + req.file.filename));
  
     var obj = {
         name: req.body.name,
@@ -51,6 +51,7 @@ app.post('/', upload.single('image'), async (req, res, next) => {
             contentType: `${req.file.mimetype}`
         }
     }
+    console.log(obj);
     //console.log(obj);
     console.log('before post');
     await imgSchema.create(obj)
