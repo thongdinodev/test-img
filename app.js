@@ -24,7 +24,9 @@ var storage = multer.diskStorage({
         cb(null, file.fieldname + '-' + Date.now())
     }
 });
- 
+
+//const storage = multer.memoryStorage();
+
 var upload = multer({ storage: storage });
  
 app.get('/', async (req, res) => {
@@ -39,17 +41,17 @@ app.get('/', async (req, res) => {
  
  
 app.post('/', upload.single('image'), async (req, res, next) => {
-    console.log(req.file);
+    console.log(path.join(__dirname + '/uploads/' + req.file.filename));
  
     var obj = {
         name: req.body.name,
         desc: req.body.desc,
         img: {
             data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
-            contentType: 'image/png'
+            contentType: `${req.file.mimetype}`
         }
     }
-    console.log(obj);
+    //console.log(obj);
     console.log('before post');
     await imgSchema.create(obj)
     .then ((err, item) => {
